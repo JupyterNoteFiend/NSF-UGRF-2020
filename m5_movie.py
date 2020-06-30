@@ -30,8 +30,8 @@ k=0
 for img in mapped_files:
     aiaprep(mapped_files[k])
     k+=1
-    top_right = SkyCoord(1200*u.arcsec, 300*u.arcsec, frame=img.coordinate_frame)
-    bottom_left = SkyCoord(600 * u.arcsec, -300. * u.arcsec, frame=img.coordinate_frame)
+    top_right = SkyCoord(1100*u.arcsec, 200*u.arcsec, frame=img.coordinate_frame)
+    bottom_left = SkyCoord(700 * u.arcsec, -200. * u.arcsec, frame=img.coordinate_frame)
     aia_seq.append(img.submap(top_right, bottom_left))
 aia = sunpy.map.Map(aia_seq)
 fig, ax = plt.subplots()
@@ -45,7 +45,7 @@ def animate(i):
     return (plot_obj,)
 
 anim = animation.FuncAnimation(fig, animate, init_func=None,
-                               frames=len(aia), interval=500, blit=True)
+                               frames=len(aia), interval=250, blit=True)
 anim
 plt.close(fig)
 HTML(anim.to_html5_video())
