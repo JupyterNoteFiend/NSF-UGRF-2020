@@ -43,19 +43,19 @@ def semi_circular_loop(length,theta0=0*u.deg):
     phi = phi[i_r]
     hcc_frame = Heliocentric(observer=SkyCoord(
         lon=75*u.deg,lat=25*u.deg,radius=r_1,frame='heliographic_stonyhurst'))
-    return (SkyCoord(x=r.to(u.cm)*np.sin(phi.to(u.radian)),
-                     y=u.Quantity(r.shape[0]*[0*u.cm]),
+    return (SkyCoord(y=r.to(u.cm)*np.sin(phi.to(u.radian)),
+                     x=u.Quantity(r.shape[0]*[0*u.cm]),
                      z=r.to(u.cm)*np.cos(phi.to(u.radian)),
                      frame=hcc_frame)
             .transform_to('heliographic_stonyhurst'))
-loop = semi_circular_loop(200*u.Mm,theta0=5*u.deg)
+loop = semi_circular_loop(140*u.Mm,theta0=5*u.deg)
 aia = glob.glob('C:\\Users\\Carleano Libretto\\downloads\\LIP2020M5(171)')
 aia = sorted(aia)
 dummy_map = (sunpy.map.Map(aia))
 dummy_map = aiaprep(dummy_map[0])
-fig = plt.figure(figsize=(20,15))
+fig = plt.figure(figsize=(30,35))
 ax = fig.gca(projection=dummy_map)
 dummy_map.plot(title=False)
 ax.plot_coord(loop.transform_to(dummy_map.coordinate_frame),color='C3',lw=3)
-ax.plot_coord(SkyCoord(1400*u.arcsec, 500*u.arcsec, frame=dummy_map.coordinate_frame))
-ax.plot_coord(SkyCoord(600*u.arcsec, -250*u.arcsec, frame=dummy_map.coordinate_frame))
+#ax.plot_coord(SkyCoord(1400*u.arcsec, 500*u.arcsec, frame=dummy_map.coordinate_frame))
+#ax.plot_coord(SkyCoord(600*u.arcsec, -250*u.arcsec, frame=dummy_map.coordinate_frame))
