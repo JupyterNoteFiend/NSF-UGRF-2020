@@ -7,7 +7,7 @@ Created on Mon Jun 29 18:50:39 2020
 
 from sunpy.net import Fido, attrs as a
 from matplotlib import pyplot as plt
-plt.rcParams['figure.figsize'] = [15, 13]  # make plots larger
+plt.rcParams['figure.figsize'] = [30, 30]  # make plots larger
 %matplotlib inline
 import sunpy.map
 from sunpy.instr.aia import aiaprep
@@ -16,21 +16,13 @@ from astropy.coordinates import SkyCoord
 from astropy import units as u
 from matplotlib import animation
 from IPython.display import HTML
-import glob
 import warnings
 warnings.filterwarnings("ignore")
-#result = Fido.search(a.Time('2016/7/23 01:30:00', '2016/7/23 03:30:00'), a.Instrument.aia, a.Wavelength(193*u.Angstrom)) 
-#download = Fido.fetch(result, path ='C:\\Users\\Carleano Libretto\\downloads\\LIP2020M5(193(allimgs))\\{file}')
-download = glob.glob('C:\\Users\\Carleano Libretto\\Downloads\\LIP2020M5(193(allimgs))\\aia_lev1_193a*.fits')
-download = sorted(download[0:201])
-#mapped_files = sunpy.map.Map(download)
 
-mapped_files = []
-for i in range(len(download)):
-    mapped_fit_file = sunpy.map.Map(download[i])
-    mapped_files.append(mapped_fit_file)
-    i+= 1
-aia_seq = [] 
+
+download = 'C:\\Users\\Carleano Libretto\\downloads\\LIP2020M5(171(allimgs))'
+mapped_files = sunpy.map.Map(download)
+aia_seq = []
 k=0
 for img in mapped_files:
     aiaprep(mapped_files[k])
@@ -51,11 +43,9 @@ def animate(i):
     return (plot_obj,)
 
 anim = animation.FuncAnimation(fig, animate, init_func=None,
-                               frames=len(aia), interval=350, blit=True)
+                               frames=len(aia), interval=100, blit=True)
 
 plt.close(fig)
-HTML(anim.to_html5_video())
-Writer = animations.writers['ffmpeg']
-writer = Writer(fps=10)
-anim.save('C:\\Users\\Carleano Libretto\\downloads\\M5(193(allimgs)).mp4', writer=writer)
-
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=30)
+anim.save('C:\\Users\\Carleano Libretto\\downloads\\movieM5(171[ALL]).mp4', writer=writer)
